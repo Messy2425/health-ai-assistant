@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, Activity, User, History as HistoryIcon, LayoutDashboard } from 'lucide-react';
+import { LogOut, Activity, User, History as HistoryIcon, LayoutDashboard, LogIn, ChevronRight } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -50,9 +50,15 @@ const Navbar = () => {
             </div>
           </div>
         ) : (
-          <div className="nav-links">
-            <Link to="/login" className="nav-link">Login</Link>
-            <Link to="/signup" className="btn btn-primary">Get Started</Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <Link to="/login" className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '0.5rem 1.25rem', borderRadius: '50px', fontSize: '0.95rem' }}>
+              <LogIn size={18} />
+              <span>Log In</span>
+            </Link>
+            <Link to="/signup" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '0.5rem 1.5rem', borderRadius: '50px', fontSize: '0.95rem', boxShadow: '0 4px 14px 0 rgba(37, 99, 235, 0.39)' }}>
+              <span>Get Started</span>
+              <ChevronRight size={18} />
+            </Link>
           </div>
         )}
       </div>
