@@ -213,3 +213,64 @@ input:focus {
 .btn:active {
   transform: scale(0.98);
 }
+
+/* ================================
+   Mobile Responsiveness
+   ================================ */
+@media (max-width: 768px) {
+  /* Navbar adjustments */
+  .navbar {
+    height: auto;
+    padding: 10px 0;
+  }
+  
+  .nav-content {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .nav-brand span {
+    font-size: 1.25rem !important;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 5px;
+  }
+
+  .auth-card {
+    padding: 1.5rem;
+    margin: 1rem;
+    border-radius: 16px;
+    box-shadow: none; /* easier to read on mobile */
+  }
+
+  .auth-title {
+    font-size: 1.4rem;
+  }
+  
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .container {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* On very small phones, compress the top buttons */
+  .nav-content > div:last-child {
+    width: 100%;
+    justify-content: center;
+    gap: 10px !important;
+  }
+  
+  .btn-outline, .btn-primary {
+    padding: 0.5rem 1rem !important;
+  }
+}
