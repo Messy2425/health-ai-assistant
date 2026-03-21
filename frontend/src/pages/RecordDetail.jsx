@@ -5,6 +5,11 @@ import axios from 'axios';
 import { ChevronLeft, Info, HelpCircle, CheckCircle, AlertTriangle, Heart, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
+const API_BASE = import.meta.env.VITE_API_URL || 
+  (window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000' 
+    : 'https://health-ai-assistant-cgttwghev-attendence-apps-projects.vercel.app');
+
 const RecordDetail = () => {
     const { id } = useParams();
     const { user } = useAuth();
@@ -15,7 +20,7 @@ const RecordDetail = () => {
     useEffect(() => {
         const fetchRecord = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/ai/history/${id}`, {
+                const res = await axios.get(`${API_BASE}/api/ai/history/${id}`, {
                     headers: { Authorization: `Bearer ${user.token}` }
                 });
                 setRecord(res.data);

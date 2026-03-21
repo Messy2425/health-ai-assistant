@@ -15,6 +15,11 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
+const API_BASE = import.meta.env.VITE_API_URL || 
+  (window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000' 
+    : 'https://health-ai-assistant-cgttwghev-attendence-apps-projects.vercel.app');
+
 const AiResponse = () => {
     const { state } = useLocation();
     const { user } = useAuth();
@@ -41,7 +46,7 @@ const AiResponse = () => {
         setResponse(null);
 
         try {
-            const res = await axios.post('http://localhost:5000/api/ai/ask', 
+            const res = await axios.post(`${API_BASE}/api/ai/ask`, 
               { question: q, category },
               { headers: { Authorization: `Bearer ${user.token}` } }
             );

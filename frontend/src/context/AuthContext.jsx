@@ -3,6 +3,12 @@ import axios from 'axios';
 
 const AuthContext = createContext(null);
 
+// Auto-detect the correct API base URL
+const API_BASE = import.meta.env.VITE_API_URL || 
+  (window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000' 
+    : 'https://health-ai-assistant-cgttwghev-attendence-apps-projects.vercel.app');
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,7 +24,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const response = await axios.post(`${API_BASE}/api/auth/login`, { email, password });
       setUser(response.data);
       localStorage.setItem('ai_health_user', JSON.stringify(response.data));
       return { success: true };
@@ -29,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (name, email, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', { name, email, password });
+      const response = await axios.post(`${API_BASE}/api/auth/signup`, { name, email, password });
       setUser(response.data);
       localStorage.setItem('ai_health_user', JSON.stringify(response.data));
       return { success: true };
@@ -40,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
   const googleLogin = async (credential) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/google-login', { credential });
+      const response = await axios.post(`${API_BASE}/api/auth/google-login`, { credential });
       setUser(response.data);
       localStorage.setItem('ai_health_user', JSON.stringify(response.data));
       return { success: true };

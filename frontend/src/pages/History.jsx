@@ -13,6 +13,11 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
+const API_BASE = import.meta.env.VITE_API_URL || 
+  (window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000' 
+    : 'https://health-ai-assistant-cgttwghev-attendence-apps-projects.vercel.app');
+
 const History = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
@@ -23,7 +28,7 @@ const History = () => {
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/ai/history', {
+                const res = await axios.get(`${API_BASE}/api/ai/history`, {
                     headers: { Authorization: `Bearer ${user.token}` }
                 });
                 setHistory(res.data);
