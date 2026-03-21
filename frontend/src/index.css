@@ -214,9 +214,43 @@ input:focus {
   transform: scale(0.98);
 }
 
-/* ================================
-   Mobile Responsiveness
-   ================================ */
+/* Custom Grid System */
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Make Ask Anything section wrap on mobile */
+.ask-input-group {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .ask-input-group {
+    flex-direction: column;
+  }
+  .ask-input-group input {
+    margin-bottom: 0.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   /* Navbar adjustments */
   .navbar {

@@ -148,7 +148,7 @@ const Dashboard = () => {
                             <p style={{ color: 'var(--text-muted)' }}>Type your query directly to our health assistant.</p>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
+                    <div className="ask-input-group">
                         <input 
                           type="text" 
                           placeholder="Ex: How to stay hydrated during workouts?" 
