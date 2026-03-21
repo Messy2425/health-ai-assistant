@@ -3,17 +3,12 @@ import axios from 'axios';
 
 const AuthContext = createContext(null);
 
-// Auto-detect the correct API base URL
-const API_BASE = import.meta.env.VITE_API_URL || 
-  (window.location.hostname === 'localhost' 
-    ? 'http://localhost:5000' 
-    : 'https://health-ai-assistant-cgttwghev-attendence-apps-projects.vercel.app');
+const API_BASE = 'https://healthai-backend-hh9u.onrender.com';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Initialize Auth state from localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem('ai_health_user');
     if (storedUser) {

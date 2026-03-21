@@ -15,10 +15,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-const API_BASE = import.meta.env.VITE_API_URL || 
-  (window.location.hostname === 'localhost' 
-    ? 'http://localhost:5000' 
-    : 'https://health-ai-assistant-cgttwghev-attendence-apps-projects.vercel.app');
+const API_BASE = 'https://healthai-backend-hh9u.onrender.com';
 
 const AiResponse = () => {
     const { state } = useLocation();
