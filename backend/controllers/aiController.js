@@ -49,8 +49,22 @@ const parseAiOutput = (responseText) => {
         }
     });
 
+    // Normalize category to match Mongoose Enum
+    const validCategories = [
+        'Symptom Analysis',
+        'Diet Recommendation',
+        'Lifestyle Improvement',
+        'Medical Report Explanation',
+        'Doctor Question Generator'
+    ];
+
+    // Try to find a match or default to 'Symptom Analysis'
+    const matchedCategory = validCategories.find(c => 
+        category.toLowerCase().includes(c.toLowerCase())
+    ) || 'Symptom Analysis';
+
     return { 
-        category,
+        category: matchedCategory,
         summary, 
         reasons: possibleReasons, 
         habits: healthyHabits, 
@@ -80,12 +94,12 @@ Rules:
 - avoid scary statements
 - encourage consulting doctor when necessary
 
-Classify user input into category:
-1 Symptom Analysis
-2 Diet Recommendation
-3 Lifestyle Improvement
-4 Medical Report Explanation
-5 Doctor Question Generator
+Classify user input into one of these MUST MATCH categories:
+- Symptom Analysis
+- Diet Recommendation
+- Lifestyle Improvement
+- Medical Report Explanation
+- Doctor Question Generator
 
 User Input: "${question}" (User context: ${category})
 
