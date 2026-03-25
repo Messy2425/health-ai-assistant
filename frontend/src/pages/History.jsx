@@ -8,12 +8,13 @@ import {
   Search, 
   Calendar,
   Activity,
-  Trash2,
-  FileText
+  FileText,
+  Loader2,
+  ChevronLeft
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-const API_BASE = 'https://healthai-backend-hh9u.onrender.com';
+const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
 
 const History = () => {
     const { user } = useAuth();
@@ -44,86 +45,96 @@ const History = () => {
     );
 
     return (
-        <div className="container" style={{ paddingTop: '3rem', paddingBottom: '3rem', maxWidth: '900px' }}>
-            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
-                <div>
-                    <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Previous History</h1>
-                    <p style={{ color: 'var(--text-muted)' }}>Review your past healthcare inquiries and AI guidance.</p>
-                </div>
-                <div style={{ backgroundColor: '#f1f5f9', padding: '1rem', borderRadius: '50px', display: 'flex', alignItems: 'center' }}>
-                    <Search size={22} color="#94a3b8" />
-                    <input 
-                      type="text" 
-                      placeholder="Search history..." 
-                      style={{ border: 'none', background: 'transparent', padding: '0.5rem 1rem', width: '250px' }}
-                      value={filter}
-                      onChange={(e) => setFilter(e.target.value)}
-                    />
-                </div>
+        <div className="container app-wrapper">
+            <header style={{ display: 'flex', alignItems: 'center', gap: '16px', margin: '24px 0' }}>
+               <button 
+                  onClick={() => navigate('/dashboard')} 
+                  style={{ background: '#f1f5f9', border: 'none', width: 44, height: 44, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-main)', cursor: 'pointer' }}
+               >
+                  <ChevronLeft size={24} />
+               </button>
+               <h2 style={{ fontSize: '20px', fontWeight: '800' }}>Your Activity</h2>
             </header>
 
+            <div style={{ position: 'relative', marginBottom: '24px' }}>
+                <Search size={20} style={{ position: 'absolute', left: '16px', top: '18px', color: 'var(--text-muted)' }} />
+                <input 
+                  type="text" 
+                  className="input-field" 
+                  placeholder="Search your history..." 
+                  style={{ paddingLeft: '48px' }}
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                />
+            </div>
+
             {loading ? (
-                <div style={{ textAlign: 'center', padding: '5rem' }}>
-                    <div className="spin" style={{ width: '40px', height: '40px', border: '3px solid #e2e8f0', borderTop: '3px solid var(--primary)', borderRadius: '50%', margin: '0 auto' }}></div>
-                    <p style={{ marginTop: '1rem', color: 'var(--text-muted)' }}>Loading history records...</p>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '60px 0' }}>
+                    <Loader2 size={32} className="spin" color="var(--primary)" />
+                    <p style={{ color: 'var(--text-muted)', fontWeight: '600' }}>Loading records...</p>
                 </div>
             ) : filteredHistory.length > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {filteredHistory.map((item, index) => (
                         <motion.div
                           key={item._id}
-                          initial={{ opacity: 0, x: -20 }}
+                          initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.05 }}
+                          whileTap={{ scale: 0.98 }}
                           className="card"
                           style={{ 
-                            padding: '1.5rem', 
+                            margin: 0,
+                            padding: '16px', 
                             display: 'flex', 
                             alignItems: 'center', 
-                            gap: '1.5rem',
+                            gap: '16px',
                             cursor: 'pointer',
-                            justifyContent: 'space-between'
+                            justifyContent: 'space-between',
+                            border: '1px solid #f1f5f9'
                           }}
                           onClick={() => navigate(`/record/${item._id}`)}
                         >
-                            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
                                 <div style={{ 
-                                    padding: '0.75rem', 
+                                    width: '44px',
+                                    height: '44px',
                                     borderRadius: '12px', 
-                                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                                    color: 'var(--primary)'
+                                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                                    color: 'var(--primary)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
                                 }}>
                                     <Activity size={24} />
                                 </div>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <span style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--primary)', letterSpacing: '0.5px' }}>
+                                    <span style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', color: 'var(--primary)', letterSpacing: '0.5px' }}>
                                         {item.category}
                                     </span>
-                                    <h3 style={{ fontSize: '1.2rem', marginTop: '0.25rem', color: 'var(--text-main)', marginBottom: '0.25rem' }}>
-                                        {item.userInput.length > 60 ? item.userInput.substring(0, 60) + '...' : item.userInput}
+                                    <h3 style={{ fontSize: '15px', color: 'var(--text-main)', margin: '2px 0', fontWeight: '700' }}>
+                                        {item.userInput.length > 40 ? item.userInput.substring(0, 40) + '...' : item.userInput}
                                     </h3>
-                                    <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                                        <div className="flex-center" style={{ gap: '6px' }}>
-                                            <Calendar size={14} />
+                                    <div style={{ display: 'flex', gap: '12px', color: 'var(--text-muted)', fontSize: '12px' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                            <Calendar size={12} />
                                             <span>{new Date(item.createdAt).toLocaleDateString()}</span>
-                                        </div>
-                                        <div className="flex-center" style={{ gap: '6px' }}>
-                                            <FileText size={14} />
-                                            <span>Analysis Complete</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <ChevronRight size={24} color="#cbd5e1" />
+                            <ChevronRight size={20} color="#cbd5e1" />
                         </motion.div>
                     ))}
                 </div>
             ) : (
-                <div className="card" style={{ textAlign: 'center', padding: '5rem', border: '2px dashed #e2e8f0', backgroundColor: 'transparent' }}>
-                    <div style={{ color: '#cbd5e1', marginBottom: '1.5rem' }}><HistoryIcon size={64} /></div>
-                    <h3>No records found</h3>
-                    <p style={{ color: 'var(--text-muted)' }}>You haven't made any healthcare inquiries yet.</p>
-                    <button className="btn btn-primary" style={{ marginTop: '2rem' }} onClick={() => navigate('/dashboard')}>Ask Your First Question</button>
+                <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+                    <div style={{ background: '#f8fafc', width: '80px', height: '80px', borderRadius: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', color: '#cbd5e1' }}>
+                       <HistoryIcon size={40} />
+                    </div>
+                    <h3 style={{ fontSize: '18px', marginBottom: '8px' }}>No records found</h3>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '24px' }}>You haven't made any health inquiries yet.</p>
+                    <button className="btn btn-primary" onClick={() => navigate('/dashboard')}>Ask Your First Question</button>
                 </div>
             )}
         </div>

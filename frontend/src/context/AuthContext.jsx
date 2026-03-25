@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const AuthContext = createContext(null);
 
-const API_BASE = 'https://healthai-backend-hh9u.onrender.com';
+const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

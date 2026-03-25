@@ -11,7 +11,9 @@ import {
   Search,
   CheckCircle2,
   Clock,
-  ArrowRight
+  ArrowRight,
+  Activity,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -22,51 +24,51 @@ const Dashboard = () => {
     const menuItems = [
         {
           id: 'symptom-checker',
-          title: 'Symptom Checker',
-          description: 'Identify potential issues based on symptoms.',
-          icon: <Stethoscope size={32} color="#2563eb" />,
+          title: 'Symptoms',
+          icon: <Stethoscope size={28} />,
           category: 'Symptom Analysis',
-          color: 'rgba(37, 99, 235, 0.1)'
+          color: '#6366f1',
+          bg: '#eef2ff'
         },
         {
           id: 'diet-recommendation',
-          title: 'Diet Recommendation',
-          description: 'Personalized nutrition and dietary advice.',
-          icon: <Utensils size={32} color="#10b981" />,
+          title: 'Nutrition',
+          icon: <Utensils size={28} />,
           category: 'Diet Recommendation',
-          color: 'rgba(16, 185, 129, 0.1)'
+          color: '#10b981',
+          bg: '#ecfdf5'
         },
         {
           id: 'lifestyle-advice',
-          title: 'Lifestyle Advice',
-          description: 'Tips for fitness, sleep, and mental wellness.',
-          icon: <HeartPulse size={32} color="#ef4444" />,
+          title: 'Lifestyle',
+          icon: <HeartPulse size={28} />,
           category: 'Lifestyle Improvement',
-          color: 'rgba(239, 68, 68, 0.1)'
+          color: '#f43f5e',
+          bg: '#fff1f2'
         },
         {
           id: 'medical-report',
-          title: 'Report Explainer',
-          description: 'Understand lab results in simple terms.',
-          icon: <FileText size={32} color="#8b5cf6" />,
+          title: 'Reports',
+          icon: <FileText size={28} />,
           category: 'Medical Report Explanation',
-          color: 'rgba(139, 92, 246, 0.1)'
+          color: '#8b5cf6',
+          bg: '#f5f3ff'
         },
         {
           id: 'doctor-questions',
-          title: 'Doctor Questions',
-          description: 'Get key questions for your next appointment.',
-          icon: <HelpCircle size={32} color="#f59e0b" />,
+          title: 'Questions',
+          icon: <HelpCircle size={28} />,
           category: 'Doctor Question Generator',
-          color: 'rgba(245, 158, 11, 0.1)'
+          color: '#f59e0b',
+          bg: '#fffbeb'
         },
         {
           id: 'history',
-          title: 'Previous History',
-          description: 'Access your record of past inquiries.',
-          icon: <HistoryIcon size={32} color="#64748b" />,
+          title: 'History',
+          icon: <HistoryIcon size={28} />,
           category: 'history',
-          color: 'rgba(100, 116, 139, 0.1)'
+          color: '#64748b',
+          bg: '#f8fafc'
         }
     ];
 
@@ -79,101 +81,128 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="container" style={{ paddingTop: '3rem', paddingBottom: '3rem' }}>
+        <div className="container app-wrapper">
+            {/* Header Section */}
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              style={{ marginBottom: '3rem' }}
+              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '24px 0' }}
             >
-                <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Welcome, {user?.name}!</h1>
-                <p style={{ color: 'var(--text-muted)', fontSize: '1.125rem' }}>
-                    How can I assist you with your health awareness today?
-                </p>
+                <div>
+                   <h2 style={{ fontSize: '24px', fontWeight: '800' }}>Hello, {user?.name.split(' ')[0]} 👋</h2>
+                   <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>How are you feeling today?</p>
+                </div>
+                <div 
+                  onClick={() => navigate('/profile')}
+                  style={{ width: 48, height: 48, borderRadius: 24, overflow: 'hidden', border: '2px solid var(--primary)', cursor: 'pointer' }}
+                >
+                   {user?.profilePicture ? (
+                     <img src={user.profilePicture} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                   ) : (
+                     <div style={{ background: '#e2e8f0', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Activity size={24} color="var(--primary)" />
+                     </div>
+                   )}
+                </div>
             </motion.div>
 
-            <div className="grid grid-cols-1 grid-cols-2 grid-cols-3">
+            {/* Main AI Card */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => navigate('/ask')}
+              style={{ 
+                background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)',
+                borderRadius: '24px',
+                padding: '24px',
+                color: 'white',
+                marginBottom: '32px',
+                position: 'relative',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                boxShadow: '0 20px 40px -12px rgba(99, 102, 241, 0.4)'
+              }}
+            >
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                      <Sparkles size={20} />
+                      <span style={{ fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', fontSize: '12px', opacity: 0.9 }}>AI Assistant</span>
+                   </div>
+                   <h3 style={{ fontSize: '22px', marginBottom: '8px', fontWeight: '800' }}>Ask your health queston</h3>
+                   <p style={{ opacity: 0.8, fontSize: '14px', marginBottom: '20px', maxWidth: '80%' }}>Get instant AI-powered health insights and recommendations.</p>
+                   <div style={{ background: 'rgba(255,255,255,0.2)', borderRadius: '12px', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ opacity: 0.9 }}>Type anything here...</span>
+                      <ArrowRight size={20} />
+                   </div>
+                </div>
+                {/* Decorative circles */}
+                <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '120px', height: '120px', borderRadius: '60px', background: 'rgba(255,255,255,0.1)' }}></div>
+                <div style={{ position: 'absolute', bottom: '-40px', right: '40px', width: '80px', height: '80px', borderRadius: '40px', background: 'rgba(255,255,255,0.1)' }}></div>
+            </motion.div>
+
+            {/* Grid Menu */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
                 {menuItems.map((item, index) => (
                     <motion.div
                       key={item.id}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: index * 0.1, duration: 0.3 }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      whileTap={{ scale: 0.96 }}
                       className="card"
                       style={{ 
-                        cursor: 'pointer',
+                        margin: 0,
+                        padding: '20px',
                         display: 'flex',
                         flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        gap: '1rem',
-                        border: '1px solid #e2e8f0'
+                        alignItems: 'flex-start',
+                        gap: '12px',
+                        cursor: 'pointer',
+                        background: 'white',
+                        border: '1px solid #f1f5f9'
                       }}
                       onClick={() => handleCardClick(item.category)}
                     >
-                        <div style={{ padding: '0.5rem', borderRadius: '12px', width: 'fit-content', backgroundColor: item.color }}>
+                        <div style={{ 
+                          width: '52px', 
+                          height: '52px', 
+                          borderRadius: '16px', 
+                          background: item.bg, 
+                          color: item.color,
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'center' 
+                        }}>
                             {item.icon}
                         </div>
-                        <div>
-                            <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{item.title}</h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>{item.description}</p>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
-                            <ArrowRight size={20} color="var(--primary)" />
-                        </div>
+                        <span style={{ fontWeight: '700', fontSize: '16px' }}>{item.title}</span>
                     </motion.div>
                 ))}
             </div>
 
-            <section style={{ marginTop: '5rem' }}>
-                <div 
-                  className="card glass" 
-                  style={{ 
-                    padding: '2rem', 
-                    borderRadius: '24px', 
-                    display: 'flex', 
-                    flexDirection: 'column',
-                    gap: '1.5rem',
-                    border: '1px solid var(--primary)',
-                    backgroundColor: 'rgba(37, 99, 235, 0.05)'
-                  }}
-                >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <div style={{ padding: '1rem', borderRadius: '50%', backgroundColor: 'var(--primary)', color: 'white' }}>
-                            <Search size={32} />
-                        </div>
-                        <div>
-                            <h2 style={{ fontSize: '1.75rem' }}>Ask Anything Else</h2>
-                            <p style={{ color: 'var(--text-muted)' }}>Type your query directly to our health assistant.</p>
-                        </div>
-                    </div>
-                    <div className="ask-input-group">
-                        <input 
-                          type="text" 
-                          placeholder="Ex: How to stay hydrated during workouts?" 
-                          style={{ padding: '1rem', flexGrow: 1 }}
-                          onKeyPress={(e) => e.key === 'Enter' && navigate('/ask', { state: { question: e.target.value } })}
-                        />
-                        <button 
-                          className="btn btn-primary"
-                          onClick={() => navigate('/ask')}
-                        >
-                            Ask Assistant
-                        </button>
-                    </div>
-                    <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
-                        <div className="flex-center" style={{ gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                            <CheckCircle2 size={16} color="var(--success)" />
-                            <span>Privacy guaranteed</span>
-                        </div>
-                        <div className="flex-center" style={{ gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                            <Clock size={16} color="var(--primary)" />
-                            <span>Instant analysis</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            {/* Quick Stats / Info */}
+            <div style={{ marginTop: '32px' }}>
+               <h4 style={{ fontSize: '18px', marginBottom: '16px', fontWeight: '800' }}>Health Insights</h4>
+               <div className="health-stat-card" style={{ marginBottom: '12px' }}>
+                  <div className="stat-icon" style={{ background: '#fffbeb', color: '#f59e0b' }}>
+                     <Clock size={24} />
+                  </div>
+                  <div>
+                     <p style={{ fontSize: '14px', fontWeight: '700' }}>Stay Hydrated</p>
+                     <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Drink at least 8 glasses of water today.</p>
+                  </div>
+               </div>
+               <div className="health-stat-card">
+                  <div className="stat-icon" style={{ background: '#ecfdf5', color: '#10b981' }}>
+                     <CheckCircle2 size={24} />
+                  </div>
+                  <div>
+                     <p style={{ fontSize: '14px', fontWeight: '700' }}>Daily Exercise</p>
+                     <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>30 mins of walking can improve heart health.</p>
+                  </div>
+               </div>
+            </div>
         </div>
     );
 };
